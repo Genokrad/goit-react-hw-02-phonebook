@@ -8,7 +8,7 @@ export class Form extends Component {
     this.setState({
       [name]: value,
     });
-    console.log(this.state);
+    // console.log(this.state);
   };
 
   handleSubmit = event => {
@@ -19,6 +19,7 @@ export class Form extends Component {
       name: '',
       number: '',
     });
+    // console.log(this.state);
   };
 
   render() {

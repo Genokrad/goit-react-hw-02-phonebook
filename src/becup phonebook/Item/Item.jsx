@@ -1,4 +1,4 @@
-export const Contacts = ({ name, number }) => {
+export const Item = ({ name, number }) => {
   return (
     <li>
       <p>
