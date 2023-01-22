@@ -4,44 +4,76 @@ import { Form } from './Form/Form';
 import { Search } from './Search/Search';
 import { Contacts } from './Contacts/Contacts';
 import { nanoid } from 'nanoid';
+import { Notify } from 'notiflix';
+import { StyledDiv } from './App.styled';
+// import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 
 export class App extends Component {
   state = {
-    contacts: [
-      // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      // { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
   sendData = data => {
+    const { name, number } = data;
+    const { contacts } = this.state;
+
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      ) ||
+      contacts.find(
+        contact => contact.number.toLowerCase() === number.toLowerCase()
+      )
+    ) {
+      Notify.failure(`${name} or number ${number} is already in contacts`);
+      return;
+    }
+
     const newCustomer = {
       id: nanoid(),
-      name: data.name,
-      number: data.number,
+      name: name,
+      number: number,
     };
-    console.log(newCustomer);
 
-    this.setState({ contacts: [...this.state.contacts, newCustomer] });
-    console.log(this.state);
+    this.setState({ contacts: [...contacts, newCustomer] });
+  };
+
+  filterValueHandler = event => {
+    const { value } = event.target;
+    this.setState({ filter: value });
+  };
+
+  filterContacts = () => {
+    const { filter, contacts } = this.state;
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
   };
 
   render() {
-    const { contacts } = this.state;
+    const { contacts, filter } = this.state;
     return (
-      <>
+      <StyledDiv>
         <Section title="Phonebook">
           <Form send={this.sendData} />
         </Section>
         <Section title="Contacts">
-          <Search />
+          <Search filter={filter} onChange={this.filterValueHandler} />
           <ul>
-            {contacts.map(contact => {
+            {(filter ? this.filterContacts() : contacts).map(contact => {
               return (
                 <Contacts
-                  key={nanoid()}
+                  key={contact.id}
+                  id={contact.id}
+                  deleteContact={this.deleteContact}
                   name={contact.name}
                   number={contact.number}
                 />
@@ -49,7 +81,7 @@ export class App extends Component {
             })}
           </ul>
         </Section>
-      </>
+      </StyledDiv>
     );
   }
 }

@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { StyledForm, StyledDiv, StyledButton } from './Form.styled';
 
 export class Form extends Component {
   state = { name: '', number: '' };
@@ -24,8 +26,8 @@ export class Form extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
+      <StyledForm onSubmit={this.handleSubmit}>
+        <StyledDiv>
           <label htmlFor="">Name</label>
           <input
             type="text"
@@ -36,21 +38,25 @@ export class Form extends Component {
             onChange={this.handleChange}
             value={this.state.name}
           />
-        </div>
-        <div>
+        </StyledDiv>
+        <StyledDiv>
           <label htmlFor="">Number</label>
           <input
             type="tel"
             name="number"
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             onChange={this.handleChange}
             value={this.state.number}
           />
-        </div>
-        <button>Add contact</button>
-      </form>
+        </StyledDiv>
+        <StyledButton>Add contact</StyledButton>
+      </StyledForm>
     );
   }
 }
+
+Form.propTypes = {
+  send: PropTypes.func.isRequired,
+};

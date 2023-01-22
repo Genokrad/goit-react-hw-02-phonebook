@@ -1,10 +1,11 @@
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-// export const StyledForm = styled.form`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 5px;
-// `;
+export const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 30px;
+`;
 
 // export const StyledButton = styled.button`
 //   width: 300px;
