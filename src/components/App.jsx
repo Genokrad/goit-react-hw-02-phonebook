@@ -36,7 +36,9 @@ export class App extends Component {
       number: number,
     };
 
-    this.setState({ contacts: [...contacts, newCustomer] });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newCustomer],
+    }));
   };
 
   filterValueHandler = event => {
