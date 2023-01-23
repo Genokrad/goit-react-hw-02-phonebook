@@ -59,7 +59,7 @@ export class App extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
+    const { filter } = this.state;
     return (
       <StyledDiv>
         <Section title="Phonebook">
@@ -67,19 +67,11 @@ export class App extends Component {
         </Section>
         <Section title="Contacts">
           <Search filter={filter} onChange={this.filterValueHandler} />
-          <ul>
-            {(filter ? this.filterContacts() : contacts).map(contact => {
-              return (
-                <Contacts
-                  key={contact.id}
-                  id={contact.id}
-                  deleteContact={this.deleteContact}
-                  name={contact.name}
-                  number={contact.number}
-                />
-              );
-            })}
-          </ul>
+
+          <Contacts
+            filterContacts={this.filterContacts()}
+            deleteContact={this.deleteContact}
+          />
         </Section>
       </StyledDiv>
     );
